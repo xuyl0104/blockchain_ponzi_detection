@@ -10,13 +10,17 @@ class DataCollector:
         self.non_ponzi_filename = non_ponzi_filename
         self.ponzi_contract_list = []
         self.non_ponzi_contract_list = []
-        self.baseURL = "http://ibasetest.inpluslab.com/scamedb/contract_download/static/file/Txs/ContractNormalTx/"
+        self.baseURL = "http://ibasetest.inpluslab.com/scamedb/contract_download/static/file/_Txs/ContractNormalTx/"
 
         self.get_ponzi_contract_list()
         self.get_nonponzi_contract_list()
 
         self.queryPonziUrlAndSaveToFiles()
         self.queryNonPonziUrlAndSaveToFiles()
+
+        self.api_internal_tx_list = "http://api.etherscan.io/api?module=account&action=txlistinternal&address="
+        self.query_ponzi_internal_tx_save_to_file()
+        self.query_nonponzi_internal_tx_save_to_file()
 
     def get_ponzi_contract_list(self):
         with open(self.ponzi_filename) as csv_file:
@@ -31,8 +35,8 @@ class DataCollector:
                     self.ponzi_contract_list.append(row[1])
                     line_count += 1
 
-            # print(f'Processed {line_count} lines.')
-            # print(self.ponzi_contract_list)
+            print(f'Processed {line_count} lines.')
+            print(self.ponzi_contract_list)
 
     def get_nonponzi_contract_list(self):
         with open(self.non_ponzi_filename) as csv_file:
@@ -52,12 +56,18 @@ class DataCollector:
 
     def readUrlGetJson(self, contractAddress):
         contractUrl = self.baseURL + contractAddress + ".json"
-        print(contractUrl)
+        #print(contractUrl)
         results = []
         with urllib.request.urlopen(contractUrl) as url:
             data = json.loads(url.read().decode())
             return data['result']
 
+    def read_api_get_json(self, contractAddress):
+        api_url = self.api_internal_tx_list + contractAddress
+
+        with urllib.request.urlopen(api_url) as api_url:
+            data = json.loads(api_url.read().decode())
+            return data['result']
 
     def queryPonziUrlAndSaveToFiles(self):
         counter = 0
@@ -65,7 +75,7 @@ class DataCollector:
             fileNameToSave = './data/transactions/ponzi/' + contratAddress + '.csv'
             if not os.path.exists(fileNameToSave):
                 with open(fileNameToSave, 'w') as f:
-                    pass
+                    f.write(" ")
 
             results = self.readUrlGetJson(contratAddress)
             fieldnames = ['blockNumber', 'blockHash', 'timeStamp', 'hash', 'nonce', 'transactionIndex', 'from', 'to', 'value', 'gas', 'gasPrice', 'input', 'contractAddress', 'cumulativeGasUsed', 'gasUsed', 'confirmations', 'isError']
@@ -74,7 +84,7 @@ class DataCollector:
                 writer.writeheader()
                 for result in results:
                     result['input'] = ''
-                    print(result)
+                    #print(result)
                     writer.writerow(result)
 
     def queryNonPonziUrlAndSaveToFiles(self):
@@ -83,7 +93,7 @@ class DataCollector:
             fileNameToSave = './data/transactions/nonponzi/' + contratAddress + '.csv'
             if not os.path.exists(fileNameToSave):
                 with open(fileNameToSave, 'w') as f:
-                    pass
+                    f.write(" ")
 
             results = self.readUrlGetJson(contratAddress)
             fieldnames = ['blockNumber', 'blockHash', 'timeStamp', 'hash', 'nonce', 'transactionIndex', 'from', 'to', 'value', 'gas', 'gasPrice', 'input', 'contractAddress', 'cumulativeGasUsed', 'gasUsed', 'confirmations', 'isError']
@@ -92,5 +102,42 @@ class DataCollector:
                 writer.writeheader()
                 for result in results:
                     result['input'] = ''
-                    print(result)
+                    #print(result)
                     writer.writerow(result)
+
+    def query_ponzi_internal_tx_save_to_file(self):
+        for contratAddress in self.ponzi_contract_list:
+            tx_list = self.read_api_get_json(contratAddress)
+            fileNameToSave = './data/internal_transactions/ponzi/' + contratAddress + '.csv'
+            if not os.path.exists(fileNameToSave):
+                with open(fileNameToSave, 'w') as f:
+                    f.write(" ")
+
+            with open(fileNameToSave, mode='w+') as csv_file:
+                fieldnames = ['blockNumber', 'timeStamp', 'hash', 'from', 'to', 'value', 'contractAddress', 'input', 'type', 'gas', 'gasUsed', 'traceId', 'isError', 'errCode']
+                writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+                writer.writeheader()
+                for tx in tx_list:
+                    tx['input'] = ''
+                    writer.writerow(tx)
+
+    def query_nonponzi_internal_tx_save_to_file(self):
+        for contratAddress in self.non_ponzi_contract_list:
+            tx_list = self.read_api_get_json(contratAddress)
+            fileNameToSave = './data/internal_transactions/nonponzi/' + contratAddress + '.csv'
+            if not os.path.exists(fileNameToSave):
+                with open(fileNameToSave, 'w') as f:
+                    f.write(" ")
+
+            with open(fileNameToSave, mode='w+') as csv_file:
+                fieldnames = ['blockNumber', 'timeStamp', 'hash', 'from', 'to', 'value', 'contractAddress', 'input', 'type', 'gas', 'gasUsed', 'traceId', 'isError', 'errCode']
+                writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+                writer.writeheader()
+                for tx in tx_list:
+                    tx['input'] = ''
+                    writer.writerow(tx)
+
+
+if __name__ == '__main__':
+    # The two files are generated by splitting the flag.csv file
+    datacollector = DataCollector('./ponziContracts.csv', './non_ponziContracts.csv')

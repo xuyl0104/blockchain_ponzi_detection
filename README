@@ -1,0 +1,18 @@
+This code is for Ponzi Scheme Detection on Ethereum platform.
+
+Requirements: (see the envoronment.yml file for more details)
+    python 3.6
+    scikit-learn
+    matplotlib
+    graphviz
+
+How to run:
+    1) create conda environment:
+        conda env create -f requirements.yml
+    2) activate the virt env:
+        source activate blockchain
+    3) run the code. This will download datasets, extract features, build models and output performance:
+        python main.py
+
+Note:
+    The dataset will be downloaded from online datahub. This will take log time to finish.
