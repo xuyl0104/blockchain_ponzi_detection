@@ -2,6 +2,7 @@ import sys
 import os
 import shutil
 import subprocess
+import urllib.request
 from datacollector import DataCollector
 from get_contract_opcode import OpcodeColector
 from features_of_all_contracts import ExtractFeatureOfAllContract
@@ -34,7 +35,9 @@ nonponzi_contract_csv = './data/non_ponziContracts.csv'
 opcode_csv = './data/Opcodes.csv'
 
 ## Download transaction data
-subprocess.call(['./download_opcodes.sh'])
+# subprocess.call(['./download_opcodes.sh'])
+url = 'http://ibasetest.inpluslab.com/scamedb/contract_download/static/file/_Opcodes.csv'
+urllib.request.urlretrieve(url, './data/Opcodes.csv')
 datacollector = DataCollector(ponzi_contract_csv, nonponzi_contract_csv)
 
 ## download opcode data
