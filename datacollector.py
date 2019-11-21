@@ -70,6 +70,7 @@ class DataCollector:
             return data['result']
 
     def queryPonziUrlAndSaveToFiles(self):
+        print("Downloading ponzi transaction files...")
         counter = 0
         for contratAddress in self.ponzi_contract_list:
             fileNameToSave = './data/transactions/ponzi/' + contratAddress + '.csv'
@@ -88,6 +89,7 @@ class DataCollector:
                     writer.writerow(result)
 
     def queryNonPonziUrlAndSaveToFiles(self):
+        print("Downloading nonponzi transaction files...")
         counter = 0
         for contratAddress in self.non_ponzi_contract_list:
             fileNameToSave = './data/transactions/nonponzi/' + contratAddress + '.csv'
@@ -106,6 +108,7 @@ class DataCollector:
                     writer.writerow(result)
 
     def query_ponzi_internal_tx_save_to_file(self):
+        print("Downloading ponzi internal transaction files...")
         for contratAddress in self.ponzi_contract_list:
             tx_list = self.read_api_get_json(contratAddress)
             fileNameToSave = './data/internal_transactions/ponzi/' + contratAddress + '.csv'
@@ -122,6 +125,7 @@ class DataCollector:
                     writer.writerow(tx)
 
     def query_nonponzi_internal_tx_save_to_file(self):
+        print("Downloading nonponzi internal transaction files...")
         for contratAddress in self.non_ponzi_contract_list:
             tx_list = self.read_api_get_json(contratAddress)
             fileNameToSave = './data/internal_transactions/nonponzi/' + contratAddress + '.csv'
