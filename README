@@ -19,7 +19,6 @@ Note:
     The dataset will be downloaded from online datahub. This will take log time to finish.
 
 Performance:
-
     ######################## Training the model using only transaction features ########################
     precision: 0.66%  recall: 0.23%  f-score: 0.33%
 
@@ -27,3 +26,4 @@ Performance:
     precision: 0.84%  recall: 0.67%  f-score: 0.74%
 
     ######################## Training the model using combined features ########################
+    precision: 0.87%  recall: 0.68%  f-score: 0.76%
