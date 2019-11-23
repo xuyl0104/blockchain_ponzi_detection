@@ -29,21 +29,22 @@ os.mkdir('./data/internal_transactions/nonponzi/')
 os.mkdir('./data/contracts/ponzi/')
 os.mkdir('./data/contracts/nonponzi/')
 
-## important files
+# important files
 ponzi_contract_csv = './data/ponziContracts.csv'
 nonponzi_contract_csv = './data/non_ponziContracts.csv'
 opcode_csv = './data/Opcodes.csv'
 
-## Download transaction data
+# Download transaction data
 print("Downloading Opcode.scv file...(over 4 GB)")
 subprocess.call(['./download_opcodes.sh'])
 datacollector = DataCollector(ponzi_contract_csv, nonponzi_contract_csv)
 
-## download opcode data
-opcode_collector = OpcodeColector(ponzi_contract_csv, nonponzi_contract_csv, opcode_csv)
+# download opcode data
+opcode_collector = OpcodeColector(
+    ponzi_contract_csv, nonponzi_contract_csv, opcode_csv)
 
-## Extract features
+# Extract features
 extract_feature_of_all_contract = ExtractFeatureOfAllContract()
 
-## Train models
+# Train models
 model_performance = Model()

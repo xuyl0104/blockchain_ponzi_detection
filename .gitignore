@@ -6,6 +6,8 @@
 /data/internal_transactions/
 /data/Opcode.csv
 
+log.txt
+
 # pycharm configuration directory
 .idea/
 
