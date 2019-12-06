@@ -143,6 +143,7 @@ class DataCollector:
 
     def query_nonponzi_internal_tx_save_to_file(self):
         print('=== Downloading nonponzi internal transaction files...')
+        counter = 0
         for contratAddress in self.non_ponzi_contract_list:
             tx_list = self.read_api_get_json(contratAddress)
             fileNameToSave = './data/internal_transactions/nonponzi/' + contratAddress + '.csv'
@@ -155,9 +156,10 @@ class DataCollector:
                               'contractAddress', 'input', 'type', 'gas', 'gasUsed', 'traceId', 'isError', 'errCode']
                 writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
                 writer.writeheader()
-                for tx in tx_list:
-                    tx['input'] = ''
-                    writer.writerow(tx)
+                if tx_list is not None:
+                    for tx in tx_list:
+                        tx['input'] = ''
+                        writer.writerow(tx)
             counter += 1
             if counter % 500 == 0 and counter > 0:
                 print('{0} internal transactions have downloaded...'.format(counter))
