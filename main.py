@@ -44,7 +44,8 @@ datacollector = DataCollector(ponzi_contract_csv, nonponzi_contract_csv)
 opcode_collector = OpcodeColector(
     ponzi_contract_csv, nonponzi_contract_csv, opcode_csv)
 
-# OPTION 2: gdownload the dataset from this link; unzipped and place the data folder in the root folder
+# (RECOMMENDED!) OPTION 2: download the dataset from this link; unzip and place the data folder in the root folder
+# comment out the code from line 13 to line 45
 # Link: https://drive.google.com/open?id=1izaOs4Mlp6dxdRMtRYQeUfkDhlqLf4Z6
 
 # Extract features
