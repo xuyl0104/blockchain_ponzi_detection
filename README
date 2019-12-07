@@ -9,7 +9,9 @@ Requirements: (see the envoronment.yml file for more details)
 
 Before you run:
     Option 1: let the code download all the data automatically. This may take a long time.
-    Option 2: download the dataset from Google Drive (https://drive.google.com/open?id=1izaOs4Mlp6dxdRMtRYQeUfkDhlqLf4Z6). Unzip and replace the data folder in the root folder.
+    Option 2: download the dataset from Google Drive (https://drive.google.com/open?id=1izaOs4Mlp6dxdRMtRYQeUfkDhlqLf4Z6). 
+              Unzip and replace the data folder in the root folder.
+              Comment out some lines of code according to the instructions in the main.py file
 
 How to run:
     1) create conda environment:
