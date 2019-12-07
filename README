@@ -7,6 +7,10 @@ Requirements: (see the envoronment.yml file for more details)
     graphviz
     xgboost
 
+Before you run:
+    Option 1: let the code download all the data automatically. This may take a long time.
+    Option 2: download the dataset from Google Drive (https://drive.google.com/open?id=1izaOs4Mlp6dxdRMtRYQeUfkDhlqLf4Z6). Unzip and replace the data folder in the root folder.
+
 How to run:
     1) create conda environment:
         conda env create -f requirements.yml
@@ -14,9 +18,6 @@ How to run:
         source activate blockchain
     3) run the code. This will download datasets, extract features, build models and output performance:
         python main.py
-
-Note:
-    The dataset will be downloaded from online datahub. This will take log time to finish.
 
 Performance:
     ######################## Training the model using only transaction features ########################
